@@ -61,9 +61,9 @@
             @include('idea.shared.like_button')
             <div>
                 <span class="fs-6 fw-light text-muted"> <span class="fas fa-clock"> </span>
-                    {{ $idea->created_at }} </span>
+                    {{ $idea->created_at->toDateString() }} </span>
             </div>
         </div>
-        @include('shared.comments_box')
+        @include('idea.shared.comments_box')
     </div>
 </div>
