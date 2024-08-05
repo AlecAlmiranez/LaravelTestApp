@@ -46,7 +46,7 @@ class IdeaController extends Controller
 
     public function destroy(Idea $id)
     {
-        Gate::authorize('delete' , $idea);
+        Gate::authorize('delete' , $id);
 
         $id->delete();
 
