@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use App\Policies;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,14 +26,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::define('admin', function(User $user) : Bool{
             return $user->is_admin;
-        });
-
-        Gate::define('idea.delete', function(User $user, Idea $idea) : Bool{
-            return ($user->is_admin || $user->id === $idea->user_id);
-        });
-
-        Gate::define('idea.edit', function(User $user,Idea $idea) : Bool{
-            return ($user->is_admin || $user->id === $idea->user_id);
         });
 
         Paginator::useBootstrapFive();

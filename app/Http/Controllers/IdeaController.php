@@ -14,7 +14,7 @@ class IdeaController extends Controller
 
     public function edit(Idea $idea){
 
-        Gate::authorize('idea.edit' , $idea);
+        Gate::authorize('update' , $idea);
 
         $editing = true;
         return view('idea.show', compact('idea','editing'));
@@ -22,7 +22,7 @@ class IdeaController extends Controller
 
     public function update(Idea $idea ){
 
-        Gate::authorize('idea.edit' , $idea);
+        Gate::authorize('update' , $idea);
 
         $validated = request()->validate([
             'content' => 'required|min:5|max:240',
@@ -48,7 +48,7 @@ class IdeaController extends Controller
 
     public function destroy(Idea $id)
     {
-        Gate::authorize('idea.delete' , $idea);
+        Gate::authorize('delete' , $idea);
 
         $id->delete();
 

@@ -18,11 +18,9 @@
                 </div>
             </div>
             <div>
-                @auth
-                    @if (Auth::id() == $user->id)
+                    @can('update', $user)
                         <a href="{{ route('users.edit', $user->id) }}"> Edit </a>
-                    @endif
-                @endauth
+                    @endcan
             </div>
         </div>
 
@@ -33,7 +31,7 @@
             </p>
             @include('users.shared.user_stats')
             @auth
-                @if (Auth::id() !== $user->id)
+                @if (Auth::user()->isNot($user))
                     @if (Auth::user()->follows($user))
                         <form method="POST" action = "{{ route('users.unfollow', $user->id) }}">
                             @csrf
