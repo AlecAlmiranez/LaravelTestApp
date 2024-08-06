@@ -16,5 +16,5 @@
 </div>
 @endauth
 @guest
-    <h4> Login to share your ideas </h4>
+    <h4> @lang('ideas.login_to_share')</h4>
 @endguest
