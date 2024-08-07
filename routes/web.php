@@ -11,7 +11,9 @@ use App\Http\Controllers\IdeaLikeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 require base_path('routes/Auth.php');
 
@@ -39,6 +41,13 @@ Route::post('idea/{idea}/unlike',[IdeaLikeController::class,'unlike'])->middlewa
 Route::get('feed', FeedController::class)->middleware('auth')->name('feed');
 
 Route::get('/admin', [AdminDashboardController::class, 'index'])->middleware(['auth','can:admin'])->name('admin.dashboard');
+
+Route::get('lang/{lang}', function ($lang){
+    app()->setlocale($lang);
+    session()->put('locale', $lang);
+
+    return redirect()->route('dashboard');
+})->name('lang');
 
 Route::get('/terms', function () {
     return view('terms');
