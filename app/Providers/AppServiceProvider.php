@@ -8,7 +8,9 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use App\Policies;
+use Barryvdh\Debugbar\Twig\Extension\Debug;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,8 +32,14 @@ class AppServiceProvider extends ServiceProvider
             return $user->is_admin;
         });
 
+        $topUsers = Cache::remember('topUsers', 60 * 3, function() {
+            return User::withCount('ideas')->orderBy('ideas_count', 'DESC')->limit(5)->get();
+        });
+
+        Debug::enable();
+
         Paginator::useBootstrapFive();
-        View::share('topUsers', User::withCount('ideas')->orderBy('ideas_count', 'DESC')->limit(5)->get());
+        View::share('topUsers', $topUsers);
 
     }
 }
