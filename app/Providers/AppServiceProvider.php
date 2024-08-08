@@ -36,7 +36,6 @@ class AppServiceProvider extends ServiceProvider
             return User::withCount('ideas')->orderBy('ideas_count', 'DESC')->limit(5)->get();
         });
 
-        Debug::enable();
 
         Paginator::useBootstrapFive();
         View::share('topUsers', $topUsers);
