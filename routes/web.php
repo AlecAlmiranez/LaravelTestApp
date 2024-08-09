@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\IdeaController;
@@ -40,7 +41,11 @@ Route::post('idea/{idea}/unlike',[IdeaLikeController::class,'unlike'])->middlewa
 
 Route::get('feed', FeedController::class)->middleware('auth')->name('feed');
 
-Route::get('/admin', [AdminDashboardController::class, 'index'])->middleware(['auth','can:admin'])->name('admin.dashboard');
+
+Route::middleware(['auth','can:admin'])->prefix('/admin')->as('admin.')->group(function (){
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users');
+});
 
 Route::get('lang/{lang}', function ($lang){
     app()->setlocale($lang);
