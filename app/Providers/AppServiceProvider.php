@@ -32,9 +32,10 @@ class AppServiceProvider extends ServiceProvider
             return $user->is_admin;
         });
 
-        $topUsers = Cache::remember('topUsers', 60 * 3, function() {
+        $topUsers = Cache::remember('topUsers', now()->addMinutes(5), function() {
             return User::withCount('ideas')->orderBy('ideas_count', 'DESC')->limit(5)->get();
         });
+
 
 
         Paginator::useBootstrapFive();
